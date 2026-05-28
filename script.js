@@ -24,7 +24,7 @@ const routes = [
   { path: "/face", title: "Face verification", render: renderFace },
   { path: "/topup", title: "Top up wallet", render: renderTopup },
   { path: "/wallet", title: "Tourist wallet", render: renderWallet },
-  { path: "/pass", title: "Click Pass", render: renderPass },
+  { path: "/pass", title: "Payment method", render: renderPass },
   { path: "/pay", title: "Payment confirmation", render: renderPay },
   { path: "/success", title: "Payment successful", render: renderSuccess },
   { path: "/refund", title: "Departure refund", render: renderRefund },
@@ -38,7 +38,7 @@ const copy = {
     notStarted: "Not started",
     walletReady: "Wallet active",
     walletLocked: "Wallet locked",
-    payWithClickPass: "Pay with Click Pass",
+    choosePaymentMethod: "Choose payment method",
     refundBeforeDeparture: "Refund before departure",
     limits: "Travel wallet safeguards",
   },
@@ -49,7 +49,7 @@ const copy = {
     notStarted: "未开始",
     walletReady: "钱包已启用",
     walletLocked: "钱包未启用",
-    payWithClickPass: "使用 Click Pass 支付",
+    choosePaymentMethod: "选择支付方式",
     refundBeforeDeparture: "离境前退款",
     limits: "旅行钱包保护",
   },
@@ -109,7 +109,7 @@ function renderHome() {
       </section>
 
       <section class="quick-grid" aria-label="Quick actions">
-        ${quickAction("barcode", "Click Pass", "/pass", !appState.walletActive)}
+        ${quickAction("barcode", "Pay", "/pass", !appState.walletActive)}
         ${quickAction("phone-icon", "Top up", "/topup", !appState.faceVerified)}
         ${quickAction("card", "Refund", "/refund", !appState.walletActive)}
         ${quickAction("qr", "QR Scanner", "/pay", !appState.walletActive)}
@@ -247,7 +247,7 @@ function renderTopup() {
 function renderWallet() {
   return `
     <div class="flow-screen">
-      ${progressHeader("5 / 8", "Tourist wallet", "The wallet can pay selected Click merchants and refund the remaining balance before departure.")}
+      ${progressHeader("5 / 8", "Tourist wallet", "Use the visitor wallet to pay or transfer, then refund the remaining balance before departure.")}
       <section class="wallet-ticket">
         <span>Available balance</span>
         <strong>${formatUZS(appState.walletBalance)} UZS</strong>
@@ -255,7 +255,7 @@ function renderWallet() {
       </section>
       ${limitCard()}
       <div class="action-stack">
-        <button class="primary-action" type="button" data-go="/pass" ${appState.walletBalance >= PAYMENT_AMOUNT ? "" : "disabled"}>${t("payWithClickPass")}</button>
+        <button class="primary-action" type="button" data-go="/pass" ${appState.walletBalance >= PAYMENT_AMOUNT ? "" : "disabled"}>${t("choosePaymentMethod")}</button>
         <button class="secondary-action wide" type="button" data-go="/refund">${t("refundBeforeDeparture")}</button>
       </div>
     </div>
@@ -265,9 +265,21 @@ function renderWallet() {
 function renderPass() {
   return `
     <div class="flow-screen">
-      ${progressHeader("6 / 8", "Click Pass", "Show the QR code to the cashier. The code refreshes every 60 seconds.")}
+      ${progressHeader("6 / 8", "Choose payment", "Pay a shop or transfer to another Click user.")}
+      <section class="payment-options" aria-label="Payment options">
+        <button class="payment-option selected" type="button">
+          <span>1</span>
+          <strong>Show my code</strong>
+          <small>Recipient scans you</small>
+        </button>
+        <button class="payment-option" type="button" data-go="/pay">
+          <span>2</span>
+          <strong>Scan or transfer</strong>
+          <small>Scan QR or choose contact</small>
+        </button>
+      </section>
       <section class="click-pass-card">
-        <span>Click Pass</span>
+        <span>My payment code</span>
         ${qrPattern()}
         <strong>TM-${String(appState.walletBalance).slice(0, 3)}-UZ</strong>
         <p>Valid for 60 seconds</p>
@@ -276,10 +288,10 @@ function renderPass() {
         <div>SC</div>
         <span>
           <strong>Samarkand Coffee</strong>
-          <small>Cashier scanned visitor Click Pass</small>
+          <small>Recipient request detected</small>
         </span>
       </section>
-      <button class="primary-action" type="button" data-go="/pay">Review merchant request</button>
+      <button class="primary-action" type="button" data-go="/pay">Review payment request</button>
     </div>
   `;
 }
@@ -288,11 +300,11 @@ function renderPay() {
   const afterPayment = Math.max(0, appState.walletBalance - PAYMENT_AMOUNT);
   return `
     <div class="flow-screen">
-      ${progressHeader("7 / 8", "Payment confirmation", "Review the merchant, amount, and remaining balance before paying.")}
+      ${progressHeader("7 / 8", "Payment confirmation", "Review the recipient, amount, and remaining balance before paying.")}
       <section class="merchant-card">
         <div>SC</div>
         <h2>Samarkand Coffee</h2>
-        <p>Merchant QR payment</p>
+        <p>QR payment request</p>
       </section>
       <section class="details-card">
         ${detail("Amount", `${formatUZS(PAYMENT_AMOUNT)} UZS`)}
@@ -316,10 +328,10 @@ function renderSuccess() {
       <section class="success-card">
         <div>OK</div>
         <h2>Payment successful</h2>
-        <p>${formatUZS(PAYMENT_AMOUNT)} UZS paid to Samarkand Coffee.</p>
+        <p>${formatUZS(PAYMENT_AMOUNT)} UZS sent to Samarkand Coffee.</p>
       </section>
       <section class="details-card">
-        ${detail("Merchant", "Samarkand Coffee")}
+        ${detail("Recipient", "Samarkand Coffee")}
         ${detail("Time", "Today, 14:32")}
         ${detail("Transaction ID", "TM-20260528-01432")}
         ${detail("Remaining", `${formatUZS(appState.walletBalance)} UZS`)}
@@ -395,10 +407,10 @@ function limitCard() {
   return `
     <section class="details-card limit-card">
       <h2>${t("limits")}</h2>
-      ${detail("Trip validity", "Until departure")}
-      ${detail("Spending control", "Pilot-adjustable")}
-      ${detail("Payment scope", "Merchant QR only")}
-      ${detail("Refund option", "Before departure")}
+      ${detail("Wallet works until", "Departure")}
+      ${detail("Spending limit", "Set by pilot rules")}
+      ${detail("Send money by", "Code, QR, or transfer")}
+      ${detail("Refund goes to", "Original card")}
     </section>
   `;
 }

@@ -32,3 +32,11 @@ test("layout is tuned for Click SuperApp style mobile aspect", () => {
   assert.match(styles, /aspect-ratio:\s*9\s*\/\s*19\.5/);
   assert.match(html, /Click Tourist Mode/);
 });
+
+test("payment flow explains flexible recipient options", () => {
+  assert.match(script, /Choose payment method/);
+  assert.match(script, /Show my code/);
+  assert.match(script, /Scan or transfer/);
+  assert.match(script, /Review the recipient/);
+  assert.doesNotMatch(script, /Merchant scans my code|merchant request|Merchant QR only|Pay with Click Pass/);
+});
