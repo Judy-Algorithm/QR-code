@@ -375,8 +375,6 @@ function progressHeader(step, title, subtitle) {
   const progress = Number.isFinite(numericStep) ? Math.min(100, Math.round((numericStep / 8) * 100)) : 100;
   return `
     <header class="flow-header">
-      <button class="back-link" type="button" data-action="back">Back</button>
-      <span>${step}</span>
       <h1>${title}</h1>
       <p>${subtitle}</p>
       <div class="flow-progress"><i style="width:${progress}%"></i></div>

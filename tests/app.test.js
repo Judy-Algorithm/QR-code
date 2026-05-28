@@ -46,3 +46,9 @@ test("face and payment method screens stay concise", () => {
   assert.match(script, /Refund goes to/);
   assert.doesNotMatch(script, /Spending limit|Send money by|Recipient request detected/);
 });
+
+test("flow header hides prototype back and step badges", () => {
+  const progressHeaderBody = script.match(/function progressHeader[\s\S]*?function quickAction/)[0];
+  assert.doesNotMatch(progressHeaderBody, /back-link|data-action="back"|<span>\$\{step\}<\/span>/);
+  assert.doesNotMatch(styles, /\.back-link|\.flow-header > span/);
+});
