@@ -21,8 +21,10 @@ test("home screen shows anonymous phone and tourist mode entry", () => {
 
 test("login flow includes phone OTP actions", () => {
   assert.match(script, /sendOtp/i);
-  assert.match(script, /123456/);
-  assert.match(script, /验证码|verification code|OTP/i);
+  assert.match(script, /generateOtp/i);
+  assert.match(script, /sms-preview/i);
+  assert.match(script, /验证码|verification code|SMS/i);
+  assert.doesNotMatch(script, /Demo code: 123456/);
 });
 
 test("layout is tuned for Click SuperApp style mobile aspect", () => {
