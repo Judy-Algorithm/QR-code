@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Click Tourist Mode</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="phone" aria-label="Click Tourist Mode mobile flow">
+        <div class="status-bar" aria-hidden="true">
+          <span>14:32</span>
+          <div class="status-icons">
+            <span class="signal"></span>
+            <span class="wifi"></span>
+            <span class="battery"></span>
+          </div>
+        </div>
+
+        <header class="topbar">
+          <button class="avatar-btn" type="button" aria-label="Profile"></button>
+          <label class="search-box">
+            <span></span>
+            <input value="" placeholder="Search" readonly />
+          </label>
+          <button class="round-btn gift-btn" type="button" aria-label="Offers"></button>
+        </header>
+
+        <section id="screen" class="screen" aria-live="polite"></section>
+
+        <footer class="bottom-nav" aria-label="Main navigation">
+          <button class="active" type="button"><span class="nav-home"></span>Home</button>
+          <button type="button"><span class="nav-transfer"></span>Transfers</button>
+          <button type="button"><span class="nav-report"></span>Reports</button>
+          <button type="button"><span class="nav-more"></span>Mini Apps</button>
+        </footer>
+      </section>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
