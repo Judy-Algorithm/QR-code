@@ -63,9 +63,9 @@ button:disabled {
 }
 
 .status-bar {
-  height: 34px;
-  padding: 10px 22px 0;
-  display: flex;
+  display: none;
+  height: 0;
+  padding: 0;
   justify-content: space-between;
   align-items: flex-start;
   font-size: 12px;
@@ -320,14 +320,17 @@ small,
 .wallet-row button {
   grid-column: 2;
   grid-row: 1 / span 2;
-  min-height: 34px;
+  min-width: 92px;
+  min-height: 44px;
   border: 0;
   border-radius: 999px;
-  padding: 0 12px;
+  padding: 0 20px;
   color: white;
   background: linear-gradient(135deg, var(--blue), var(--green));
-  font-size: 11px;
-  font-weight: 850;
+  font-size: 16px;
+  font-weight: 950;
+  letter-spacing: 0;
+  box-shadow: 0 12px 24px rgba(18, 191, 131, 0.28);
 }
 
 .quick-grid,
@@ -408,10 +411,10 @@ small,
 }
 
 .tourist-banner {
-  min-height: 78px;
+  min-height: 104px;
   border: 0;
   border-radius: 12px;
-  padding: 14px 16px;
+  padding: 18px 18px;
   text-align: left;
   color: white;
   background:
@@ -426,17 +429,19 @@ small,
 }
 
 .tourist-banner span {
-  font-size: 12px;
-  font-weight: 850;
-  opacity: 0.85;
+  font-size: 18px;
+  line-height: 1.05;
+  font-weight: 950;
+  opacity: 0.95;
 }
 
 .tourist-banner strong {
-  width: 230px;
+  width: 300px;
   max-width: 100%;
-  margin-top: 3px;
-  font-size: 17px;
-  line-height: 1.15;
+  margin-top: 8px;
+  font-size: 26px;
+  line-height: 1.12;
+  letter-spacing: 0;
 }
 
 .section-title {
