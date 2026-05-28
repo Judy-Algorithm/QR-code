@@ -40,3 +40,9 @@ test("payment flow explains flexible recipient options", () => {
   assert.match(script, /Review the recipient/);
   assert.doesNotMatch(script, /Merchant scans my code|merchant request|Merchant QR only|Pay with Click Pass/);
 });
+
+test("face and payment method screens stay concise", () => {
+  assert.match(script, /Wallet works until/);
+  assert.match(script, /Refund goes to/);
+  assert.doesNotMatch(script, /Spending limit|Send money by|Recipient request detected/);
+});

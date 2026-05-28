@@ -284,13 +284,6 @@ function renderPass() {
         <strong>TM-${String(appState.walletBalance).slice(0, 3)}-UZ</strong>
         <p>Valid for 60 seconds</p>
       </section>
-      <section class="merchant-strip">
-        <div>SC</div>
-        <span>
-          <strong>Samarkand Coffee</strong>
-          <small>Recipient request detected</small>
-        </span>
-      </section>
       <button class="primary-action" type="button" data-go="/pay">Review payment request</button>
     </div>
   `;
@@ -408,8 +401,6 @@ function limitCard() {
     <section class="details-card limit-card">
       <h2>${t("limits")}</h2>
       ${detail("Wallet works until", "Departure")}
-      ${detail("Spending limit", "Set by pilot rules")}
-      ${detail("Send money by", "Code, QR, or transfer")}
       ${detail("Refund goes to", "Original card")}
     </section>
   `;
