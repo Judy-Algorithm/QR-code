@@ -54,7 +54,7 @@ button:disabled {
   max-height: calc(100vh - 36px);
   min-height: 680px;
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto auto 1fr;
   overflow: hidden;
   border: 10px solid #111820;
   border-radius: 46px;
@@ -353,8 +353,7 @@ small,
 }
 
 .qa-icon,
-.mini-grid span,
-.bottom-nav span {
+.mini-grid span {
   display: block;
   margin: 0 auto 7px;
   position: relative;
@@ -625,7 +624,6 @@ small,
 .success-card,
 .sms-preview,
 .details-card,
-.method-switch,
 .topup-place,
 .wallet-ticket,
 .click-pass-card,
@@ -834,28 +832,6 @@ small,
   margin-top: 4px;
   color: var(--blue-dark);
   font-size: 31px;
-}
-
-.method-switch {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  padding: 8px;
-}
-
-.method-switch button {
-  min-height: 42px;
-  border: 0;
-  border-radius: 15px;
-  color: var(--muted);
-  background: transparent;
-  font-size: 12px;
-  font-weight: 900;
-}
-
-.method-switch button.selected {
-  color: var(--blue-dark);
-  background: #e6f2ff;
 }
 
 .amount-grid {
@@ -1096,80 +1072,6 @@ small,
   color: #0f9f68;
   background: #ddf8ee;
   border: 8px solid #c8f1e1;
-}
-
-.bottom-nav {
-  height: 68px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid var(--line);
-  background: var(--panel);
-}
-
-.bottom-nav button {
-  border: 0;
-  background: transparent;
-  color: var(--muted);
-  font-size: 10px;
-  font-weight: 800;
-}
-
-.bottom-nav button.active {
-  color: var(--blue);
-}
-
-.bottom-nav span {
-  width: 22px;
-  height: 22px;
-}
-
-.nav-home {
-  border-radius: 50%;
-  background: var(--blue);
-}
-
-.nav-transfer::before,
-.nav-report::before,
-.nav-more::before {
-  content: "";
-  position: absolute;
-  inset: 4px;
-  border: 2px solid currentColor;
-  border-radius: 6px;
-}
-
-.nav-transfer::after {
-  content: "";
-  position: absolute;
-  left: 4px;
-  right: 4px;
-  top: 10px;
-  height: 2px;
-  background: currentColor;
-}
-
-.nav-report::after {
-  content: "";
-  position: absolute;
-  left: 9px;
-  bottom: 3px;
-  width: 4px;
-  height: 14px;
-  border-radius: 4px;
-  background: currentColor;
-  box-shadow: 7px 4px currentColor;
-}
-
-.nav-more::after {
-  content: "";
-  position: absolute;
-  left: 4px;
-  top: 4px;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: currentColor;
-  box-shadow: 9px 0 currentColor, 0 9px currentColor, 9px 9px currentColor;
 }
 
 @media (max-width: 480px) {

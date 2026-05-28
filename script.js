@@ -9,7 +9,6 @@ const appState = {
   registered: false,
   passportScanned: false,
   faceVerified: false,
-  topupMethod: "cash",
   topupAmount: 300000,
   walletBalance: 0,
   walletActive: false,
@@ -41,7 +40,7 @@ const copy = {
     walletLocked: "Wallet locked",
     payWithClickPass: "Pay with Click Pass",
     refundBeforeDeparture: "Refund before departure",
-    limits: "Temporary wallet limits",
+    limits: "Travel wallet safeguards",
   },
   zh: {
     homeBanner: "面向游客的护照支付入口",
@@ -52,7 +51,7 @@ const copy = {
     walletLocked: "钱包未启用",
     payWithClickPass: "使用 Click Pass 支付",
     refundBeforeDeparture: "离境前退款",
-    limits: "临时钱包限制",
+    limits: "旅行钱包保护",
   },
 };
 
@@ -224,11 +223,7 @@ function renderTopup() {
   const amounts = [100000, 300000, 500000, 750000];
   return `
     <div class="flow-screen">
-      ${progressHeader("4 / 8", "Top up wallet", "Choose cash desk or international card top-up for the temporary UZS wallet.")}
-      <section class="method-switch" aria-label="Top up method">
-        <button class="${appState.topupMethod === "cash" ? "selected" : ""}" type="button" data-method="cash">Cash point</button>
-        <button class="${appState.topupMethod === "card" ? "selected" : ""}" type="button" data-method="card">Intl card</button>
-      </section>
+      ${progressHeader("4 / 8", "Top up wallet", "Add UZS to the visitor wallet with an international card.")}
       <section class="wallet-panel">
         <span>Current balance</span>
         <strong>${formatUZS(appState.walletBalance)} UZS</strong>
@@ -237,11 +232,11 @@ function renderTopup() {
         ${amounts.map((amount) => `<button class="${amount === appState.topupAmount ? "selected" : ""}" type="button" data-amount="${amount}">${formatUZS(amount)}<span>UZS</span></button>`).join("")}
       </div>
       <section class="topup-place">
-        ${appState.topupMethod === "cash" ? cashDeskMarkup() : cardMarkup()}
+        ${cardMarkup()}
       </section>
       <section class="details-card">
         ${detail("Top-up amount", `${formatUZS(appState.topupAmount)} UZS`)}
-        ${detail("Fee", appState.topupMethod === "cash" ? "0 UZS" : "1% card estimate")}
+        ${detail("Fee", "Shown before confirmation")}
         ${detail("Wallet after top-up", `${formatUZS(appState.walletBalance + appState.topupAmount)} UZS`)}
       </section>
       <button class="primary-action" type="button" data-action="topup">Top up wallet</button>
@@ -349,7 +344,7 @@ function renderRefund() {
       </section>
       <section class="details-card">
         ${detail("Passport profile", appState.passportScanned ? "ANNA TOURIST" : "--")}
-        ${detail("Refund method", appState.topupMethod === "cash" ? "Partner cash desk" : "International card")}
+        ${detail("Refund method", "Original card")}
         ${detail("Wallet status", appState.refunded ? "Closed" : "Active")}
       </section>
       <div class="action-stack">
@@ -400,23 +395,11 @@ function limitCard() {
   return `
     <section class="details-card limit-card">
       <h2>${t("limits")}</h2>
-      ${detail("Validity", "30 days")}
-      ${detail("Max balance", "1,000,000 UZS")}
-      ${detail("Single payment", "300,000 UZS")}
-      ${detail("P2P transfers", "Disabled")}
+      ${detail("Trip validity", "Until departure")}
+      ${detail("Spending control", "Pilot-adjustable")}
+      ${detail("Payment scope", "Merchant QR only")}
+      ${detail("Refund option", "Before departure")}
     </section>
-  `;
-}
-
-function cashDeskMarkup() {
-  return `
-    <div class="cash-map">
-      <span class="map-pin">C</span>
-    </div>
-    <div>
-      <strong>Tashkent Airport Click desk</strong>
-      <small>Arrival hall, open 24 hours</small>
-    </div>
   `;
 }
 
@@ -428,7 +411,7 @@ function cardMarkup() {
     </div>
     <div>
       <strong>International card top-up</strong>
-      <small>Demo risk review passed</small>
+      <small>Card is charged securely; wallet receives UZS</small>
     </div>
   `;
 }
@@ -515,7 +498,6 @@ function resetDemo() {
     registered: false,
     passportScanned: false,
     faceVerified: false,
-    topupMethod: "cash",
     topupAmount: 300000,
     walletBalance: 0,
     walletActive: false,
@@ -530,7 +512,6 @@ function resetDemo() {
 screen.addEventListener("click", (event) => {
   const localeTarget = event.target.closest("[data-locale]");
   const amountTarget = event.target.closest("[data-amount]");
-  const methodTarget = event.target.closest("[data-method]");
   const goTarget = event.target.closest("[data-go]");
   const actionTarget = event.target.closest("[data-action]");
 
@@ -542,12 +523,6 @@ screen.addEventListener("click", (event) => {
 
   if (amountTarget) {
     appState.topupAmount = Number(amountTarget.dataset.amount);
-    render();
-    return;
-  }
-
-  if (methodTarget) {
-    appState.topupMethod = methodTarget.dataset.method;
     render();
     return;
   }
