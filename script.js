@@ -454,6 +454,7 @@ function renderSmsPreview() {
         <strong>${appState.smsCode}</strong>
       </div>
       <p>Your Tourist Mode verification code is ${appState.smsCode}. It is valid for 5 minutes.</p>
+      <button type="button" data-action="fillOtp">Use this code</button>
     </section>
   `;
 }
@@ -501,7 +502,7 @@ function verifyOtp() {
   }
   appState.registered = true;
   appState.otpError = "";
-  navigate("/passport");
+  render();
 }
 
 function resetDemo() {
@@ -563,6 +564,9 @@ screen.addEventListener("click", (event) => {
     window.history.back();
   } else if (action === "sendOtp") {
     sendOtp();
+  } else if (action === "fillOtp") {
+    appState.otp = appState.smsCode;
+    render();
   } else if (action === "verifyOtp") {
     verifyOtp();
   } else if (action === "scanPassport") {

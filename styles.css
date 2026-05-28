@@ -232,6 +232,28 @@ button:disabled {
   gap: 14px;
 }
 
+.demo-controls {
+  display: grid;
+  grid-template-columns: 54px 54px 1fr;
+  gap: 8px;
+}
+
+.demo-controls button {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--blue-dark);
+  background: var(--panel);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.demo-controls button.selected {
+  color: white;
+  border-color: var(--blue);
+  background: var(--blue);
+}
+
 .balance-card {
   padding: 16px;
   border-radius: 24px;
@@ -503,6 +525,21 @@ small,
   margin: 0;
 }
 
+.flow-progress {
+  height: 6px;
+  margin-top: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #d9e9f5;
+}
+
+.flow-progress i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+}
+
 .input-card {
   display: grid;
   gap: 7px;
@@ -569,13 +606,25 @@ small,
   font-weight: 760;
 }
 
+.form-hint {
+  margin: 0;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 760;
+}
+
 .scanner,
 .bank-preview,
 .wallet-panel,
 .merchant-card,
 .success-card,
 .sms-preview,
-.details-card {
+.details-card,
+.method-switch,
+.topup-place,
+.wallet-ticket,
+.click-pass-card,
+.merchant-strip {
   border-radius: 22px;
   background: var(--panel);
   box-shadow: 0 9px 20px rgba(25, 44, 62, 0.07);
@@ -712,6 +761,11 @@ small,
   padding: 14px;
 }
 
+.limit-card h2 {
+  margin: 0 0 12px;
+  font-size: 16px;
+}
+
 .detail-row {
   display: flex;
   justify-content: space-between;
@@ -777,6 +831,28 @@ small,
   font-size: 31px;
 }
 
+.method-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 8px;
+}
+
+.method-switch button {
+  min-height: 42px;
+  border: 0;
+  border-radius: 15px;
+  color: var(--muted);
+  background: transparent;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.method-switch button.selected {
+  color: var(--blue-dark);
+  background: #e6f2ff;
+}
+
 .amount-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -802,6 +878,175 @@ small,
 .amount-grid button.selected {
   border-color: var(--blue);
   box-shadow: 0 11px 20px rgba(8, 120, 230, 0.14);
+}
+
+.topup-place {
+  min-height: 96px;
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 82px 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+.topup-place strong,
+.merchant-strip strong {
+  display: block;
+  font-size: 14px;
+}
+
+.topup-place small,
+.merchant-strip small,
+.wallet-ticket p,
+.click-pass-card p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.cash-map {
+  height: 68px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(90deg, transparent 47%, rgba(8, 120, 230, 0.22) 48% 52%, transparent 53%),
+    linear-gradient(0deg, transparent 47%, rgba(8, 120, 230, 0.22) 48% 52%, transparent 53%),
+    #edf7ff;
+}
+
+.map-pin {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50% 50% 50% 8px;
+  color: white;
+  background: var(--green);
+  font-size: 15px;
+  font-weight: 950;
+  transform: rotate(-45deg);
+}
+
+.map-pin::first-letter {
+  transform: rotate(45deg);
+}
+
+.card-on-file {
+  min-height: 68px;
+  padding: 12px;
+  display: grid;
+  align-content: space-between;
+  border-radius: 18px;
+  color: white;
+  background: linear-gradient(135deg, #13256f, #0878e6 55%, #12bf83);
+}
+
+.card-on-file span {
+  font-size: 11px;
+  font-weight: 950;
+}
+
+.card-on-file strong {
+  color: white;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+}
+
+.wallet-ticket {
+  min-height: 178px;
+  padding: 20px;
+  display: grid;
+  align-content: end;
+  gap: 7px;
+  color: white;
+  background:
+    radial-gradient(circle at 84% 20%, rgba(255, 255, 255, 0.25) 0 42px, transparent 43px),
+    linear-gradient(135deg, var(--blue), var(--green));
+}
+
+.wallet-ticket.refund {
+  background:
+    radial-gradient(circle at 82% 22%, rgba(255, 255, 255, 0.22) 0 42px, transparent 43px),
+    linear-gradient(135deg, #27364a, #0878e6);
+}
+
+.wallet-ticket span {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.wallet-ticket strong {
+  font-size: 34px;
+  line-height: 1;
+}
+
+.wallet-ticket p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.action-stack {
+  display: grid;
+  gap: 10px;
+}
+
+.click-pass-card {
+  min-height: 330px;
+  padding: 24px;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.click-pass-card > span {
+  color: var(--blue-dark);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.click-pass-card strong {
+  font-size: 18px;
+}
+
+.click-pass-card p {
+  margin: 0;
+}
+
+.qr-pattern {
+  width: 176px;
+  height: 176px;
+  border: 12px solid white;
+  border-radius: 14px;
+  background:
+    linear-gradient(90deg, #17202a 10px, transparent 10px 20px, #17202a 20px 30px, transparent 30px 40px, #17202a 40px 50px, transparent 50px),
+    linear-gradient(#17202a 10px, transparent 10px 20px, #17202a 20px 30px, transparent 30px 40px, #17202a 40px 50px, transparent 50px),
+    #fff;
+  background-size: 50px 50px;
+  box-shadow: inset 0 0 0 12px #17202a, 0 12px 24px rgba(25, 44, 62, 0.12);
+}
+
+.merchant-strip {
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+.merchant-strip div {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  color: var(--blue-dark);
+  background: #e6f2ff;
+  font-weight: 950;
 }
 
 .merchant-card,
