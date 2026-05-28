@@ -268,7 +268,7 @@ function renderPass() {
       ${progressHeader("6 / 8", "Click Pass", "Show the QR code to the cashier. The code refreshes every 60 seconds.")}
       <section class="click-pass-card">
         <span>Click Pass</span>
-        <div class="qr-pattern" aria-label="Demo QR code"></div>
+        ${qrPattern()}
         <strong>TM-${String(appState.walletBalance).slice(0, 3)}-UZ</strong>
         <p>Valid for 60 seconds</p>
       </section>
@@ -340,7 +340,7 @@ function renderRefund() {
       <section class="wallet-ticket refund">
         <span>Refundable balance</span>
         <strong>${formatUZS(appState.walletBalance)} UZS</strong>
-        <p>${appState.refunded ? "Refund completed. Tourist Mode is closed." : "Refund to original top-up method or airport partner desk."}</p>
+        <p>${appState.refunded ? "Refund completed to original card." : "Refund remaining balance to the original card."}</p>
       </section>
       <section class="details-card">
         ${detail("Passport profile", appState.passportScanned ? "ANNA TOURIST" : "--")}
@@ -412,6 +412,25 @@ function cardMarkup() {
     <div>
       <strong>International card top-up</strong>
       <small>Card is charged securely; wallet receives UZS</small>
+    </div>
+  `;
+}
+
+function qrPattern() {
+  const modules = [
+    [8, 1], [10, 1], [8, 2], [11, 2], [14, 2], [16, 2],
+    [7, 4], [9, 4], [11, 4], [14, 4], [7, 5], [10, 5], [12, 5], [16, 5],
+    [2, 8], [4, 8], [6, 8], [9, 8], [13, 8], [15, 8], [17, 8],
+    [8, 10], [11, 10], [12, 10], [15, 10], [2, 11], [5, 11], [9, 11], [14, 11],
+    [8, 13], [10, 13], [12, 13], [16, 13], [7, 15], [9, 15], [11, 15], [13, 15], [15, 15], [17, 15],
+    [8, 17], [10, 17], [14, 17], [16, 17],
+  ];
+  return `
+    <div class="qr-pattern" aria-label="Demo QR code">
+      <span class="qr-finder top-left"></span>
+      <span class="qr-finder top-right"></span>
+      <span class="qr-finder bottom-left"></span>
+      ${modules.map(([col, row]) => `<i style="grid-column:${col};grid-row:${row}"></i>`).join("")}
     </div>
   `;
 }
