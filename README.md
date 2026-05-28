@@ -29,7 +29,13 @@ npm test
 
 ## QR Usage
 
-After deploying with GitHub Pages, create a QR code for the Pages URL, for example:
+After deploying with Vercel, create a QR code for the production URL, for example:
+
+```text
+https://your-vercel-project.vercel.app/
+```
+
+If you deploy with GitHub Pages instead, use the Pages URL:
 
 ```text
 https://judy-algorithm.github.io/QR-code/
