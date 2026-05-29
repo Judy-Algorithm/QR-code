@@ -7,7 +7,6 @@ Mobile-first static prototype for a QR-scanned Click SuperApp style tourist paym
 - `/` Click-style home screen with anonymous phone shown as `--` and a green `Tourist Mode` entry.
 - `/login` phone verification code login. The static demo generates an in-page SMS preview code.
 - `/passport` passport scan simulation.
-- `/face` face verification simulation.
 - `/card` bank card binding.
 - `/topup` tourist wallet top-up.
 - `/pay` payment confirmation.

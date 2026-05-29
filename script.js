@@ -8,7 +8,6 @@ const appState = {
   countdown: 0,
   registered: false,
   passportScanned: false,
-  faceVerified: false,
   topupAmount: 300000,
   walletBalance: 0,
   walletActive: false,
@@ -21,7 +20,6 @@ const routes = [
   { path: "/", title: "Click SuperApp", render: renderHome },
   { path: "/login", title: "Phone verification", render: renderLogin },
   { path: "/passport", title: "Passport scan", render: renderPassport },
-  { path: "/face", title: "Face verification", render: renderFace },
   { path: "/topup", title: "Top up wallet", render: renderTopup },
   { path: "/wallet", title: "Tourist wallet", render: renderWallet },
   { path: "/pass", title: "Payment method", render: renderPass },
@@ -110,7 +108,7 @@ function renderHome() {
 
       <section class="quick-grid" aria-label="Quick actions">
         ${quickAction("barcode", "Pay", "/pass", !appState.walletActive)}
-        ${quickAction("phone-icon", "Top up", "/topup", !appState.faceVerified)}
+        ${quickAction("phone-icon", "Top up", "/topup", !appState.passportScanned)}
         ${quickAction("card", "Refund", "/refund", !appState.walletActive)}
         ${quickAction("qr", "QR Scanner", "/pay", !appState.walletActive)}
       </section>
@@ -144,7 +142,7 @@ function renderLogin() {
   if (appState.registered) {
     return `
       <div class="flow-screen">
-        ${progressHeader("1 / 8", "Phone verified", "This temporary visitor session is linked to your contact number.")}
+        ${progressHeader("1 / 7", "Phone verified", "This temporary visitor session is linked to your contact number.")}
         <section class="success-card compact-success">
           <div>OK</div>
           <h2>Registration successful</h2>
@@ -157,7 +155,7 @@ function renderLogin() {
 
   return `
     <div class="flow-screen">
-      ${progressHeader("1 / 8", "Phone verification", "Use any reachable mobile number to receive a Tourist Mode SMS code.")}
+      ${progressHeader("1 / 7", "Phone verification", "Use any reachable mobile number to receive a Tourist Mode SMS code.")}
       <label class="input-card">
         <span>Mobile phone</span>
         <input id="phone-input" inputmode="tel" autocomplete="tel" value="${appState.phone}" />
@@ -181,7 +179,7 @@ function renderLogin() {
 function renderPassport() {
   return `
     <div class="flow-screen">
-      ${progressHeader("2 / 8", "Passport scan", "Scan the passport photo page. The visitor account stays temporary and limited.")}
+      ${progressHeader("2 / 7", "Passport scan", "Scan the passport photo page. The visitor account stays temporary and limited.")}
       <section class="scanner passport-scanner ${appState.passportScanned ? "done" : ""}">
         <div class="scan-line"></div>
         <div class="passport-card">
@@ -197,24 +195,7 @@ function renderPassport() {
         ${detail("Passport No.", appState.passportScanned ? "C01X204877" : "--")}
         ${detail("Departure", appState.passportScanned ? "2026-06-10" : "--")}
       </section>
-      <button class="primary-action" type="button" data-go="/face" ${appState.passportScanned ? "" : "disabled"}>Confirm passport</button>
-    </div>
-  `;
-}
-
-function renderFace() {
-  return `
-    <div class="flow-screen">
-      ${progressHeader("3 / 8", "Face verification", "Match live face with the passport photo before enabling payments.")}
-      <section class="scanner face-scanner ${appState.faceVerified ? "done" : ""}">
-        <div class="face"></div>
-        <p>${appState.faceVerified ? "Face matched" : "Look straight at the screen"}</p>
-      </section>
-      <button class="secondary-action wide" type="button" data-action="verifyFace">
-        ${appState.faceVerified ? "Verified" : "Start face check"}
-      </button>
-      ${limitCard()}
-      <button class="primary-action" type="button" data-go="/topup" ${appState.faceVerified ? "" : "disabled"}>Create visitor wallet</button>
+      <button class="primary-action" type="button" data-go="/topup" ${appState.passportScanned ? "" : "disabled"}>Create visitor wallet</button>
     </div>
   `;
 }
@@ -223,7 +204,7 @@ function renderTopup() {
   const amounts = [100000, 300000, 500000, 750000];
   return `
     <div class="flow-screen">
-      ${progressHeader("4 / 8", "Top up wallet", "Add UZS to the visitor wallet with an international card.")}
+      ${progressHeader("3 / 7", "Top up wallet", "Add UZS to the visitor wallet with an international card.")}
       <section class="wallet-panel">
         <span>Current balance</span>
         <strong>${formatUZS(appState.walletBalance)} UZS</strong>
@@ -247,7 +228,7 @@ function renderTopup() {
 function renderWallet() {
   return `
     <div class="flow-screen">
-      ${progressHeader("5 / 8", "Tourist wallet", "Use the visitor wallet to pay or transfer, then refund the remaining balance before departure.")}
+      ${progressHeader("4 / 7", "Tourist wallet", "Use the visitor wallet to pay or transfer, then refund the remaining balance before departure.")}
       <section class="wallet-ticket">
         <span>Available balance</span>
         <strong>${formatUZS(appState.walletBalance)} UZS</strong>
@@ -265,7 +246,7 @@ function renderWallet() {
 function renderPass() {
   return `
     <div class="flow-screen">
-      ${progressHeader("6 / 8", "Choose payment", "Pay a shop or transfer to another Click user.")}
+      ${progressHeader("5 / 7", "Choose payment", "Pay a shop or transfer to another Click user.")}
       <section class="payment-options" aria-label="Payment options">
         <button class="payment-option selected" type="button">
           <span>1</span>
@@ -293,7 +274,7 @@ function renderPay() {
   const afterPayment = Math.max(0, appState.walletBalance - PAYMENT_AMOUNT);
   return `
     <div class="flow-screen">
-      ${progressHeader("7 / 8", "Payment confirmation", "Review the recipient, amount, and remaining balance before paying.")}
+      ${progressHeader("6 / 7", "Payment confirmation", "Review the recipient, amount, and remaining balance before paying.")}
       <section class="merchant-card">
         <div>SC</div>
         <h2>Samarkand Coffee</h2>
@@ -317,7 +298,7 @@ function renderPay() {
 function renderSuccess() {
   return `
     <div class="flow-screen">
-      ${progressHeader("8 / 8", "Payment successful", "Receipt saved in the tourist visitor wallet.")}
+      ${progressHeader("7 / 7", "Payment successful", "Receipt saved in the tourist visitor wallet.")}
       <section class="success-card">
         <div>OK</div>
         <h2>Payment successful</h2>
@@ -372,7 +353,7 @@ function demoControls() {
 
 function progressHeader(step, title, subtitle) {
   const numericStep = Number.parseInt(step, 10);
-  const progress = Number.isFinite(numericStep) ? Math.min(100, Math.round((numericStep / 8) * 100)) : 100;
+  const progress = Number.isFinite(numericStep) ? Math.min(100, Math.round((numericStep / 7) * 100)) : 100;
   return `
     <header class="flow-header">
       <h1>${title}</h1>
@@ -517,7 +498,6 @@ function resetDemo() {
     countdown: 0,
     registered: false,
     passportScanned: false,
-    faceVerified: false,
     topupAmount: 300000,
     walletBalance: 0,
     walletActive: false,
@@ -566,9 +546,6 @@ screen.addEventListener("click", (event) => {
     verifyOtp();
   } else if (action === "scanPassport") {
     appState.passportScanned = true;
-    render();
-  } else if (action === "verifyFace") {
-    appState.faceVerified = true;
     render();
   } else if (action === "topup") {
     appState.walletBalance += appState.topupAmount;

@@ -9,9 +9,11 @@ const script = fs.readFileSync(path.join(root, "script.js"), "utf8");
 const styles = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 
 test("mobile prototype exposes the requested route sequence", () => {
-  ["/login", "/passport", "/face", "/topup", "/wallet", "/pass", "/pay", "/success", "/refund"].forEach((route) => {
+  ["/login", "/passport", "/topup", "/wallet", "/pass", "/pay", "/success", "/refund"].forEach((route) => {
     assert.match(script, new RegExp(`path:\\s*["']${route}["']`));
   });
+  assert.doesNotMatch(script, /path:\s*["']\/face["']|Face verification|Start face check|verifyFace|faceVerified/);
+  assert.doesNotMatch(styles, /face-scanner|\\.face\\b/);
 });
 
 test("home screen shows anonymous phone and tourist mode entry", () => {
@@ -41,7 +43,7 @@ test("payment flow explains flexible recipient options", () => {
   assert.doesNotMatch(script, /Merchant scans my code|merchant request|Merchant QR only|Pay with Click Pass/);
 });
 
-test("face and payment method screens stay concise", () => {
+test("wallet safeguards and payment method screens stay concise", () => {
   assert.match(script, /Wallet works until/);
   assert.match(script, /Refund goes to/);
   assert.doesNotMatch(script, /Spending limit|Send money by|Recipient request detected/);

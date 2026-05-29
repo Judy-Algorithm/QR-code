@@ -714,28 +714,6 @@ small,
   animation: none;
 }
 
-.face-scanner {
-  gap: 12px;
-  color: white;
-  background: linear-gradient(145deg, #152333, #0b6dcc);
-}
-
-.face {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  border: 8px solid rgba(255, 255, 255, 0.26);
-  background:
-    radial-gradient(circle at 50% 37%, #f2c7a8 0 27px, transparent 28px),
-    radial-gradient(circle at 50% 82%, #d9f0ff 0 35px, transparent 36px),
-    #e9f7ff;
-}
-
-.face-scanner p {
-  margin: 0;
-  font-weight: 850;
-}
-
 .details-card {
   padding: 14px;
 }
